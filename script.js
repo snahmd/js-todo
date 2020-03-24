@@ -8,7 +8,7 @@ const taskList = document.querySelector('#task-list');
 //call event listeners
 eventListeners();
 
-function eventListeners(){
+function eventListeners() {
   // submit event
   form.addEventListener('submit', addNewItem);
 
@@ -20,20 +20,20 @@ function eventListeners(){
 }
 
 //add new item
-function addNewItem(e){
+function addNewItem(e) {
 
-  if(input.value ===''){
+  if (input.value === '') {
     alert('add new item');
   }
 
   //create li
-  const li= document.createElement('li');
-  li.className='list-group-item list-group-item-secondary';
+  const li = document.createElement('li');
+  li.className = 'list-group-item list-group-item-secondary';
   li.appendChild(document.createTextNode(input.value));
 
   //create a
   const a = document.createElement('a');
-  a.classList= 'delete-item float-right';
+  a.classList = 'delete-item float-right';
   a.setAttribute('href', '#');
   a.innerHTML = '<i class="fas fa-times"></i>';
 
@@ -43,24 +43,45 @@ function addNewItem(e){
   // add li to ul
   taskList.appendChild(li);
 
-  input.value='';
+  input.value = '';
 
   e.preventDefault();
 }
 
 //delete an item
-function deleteItem(e){
-  if(e.target.className === 'fas fa-times'){
-    e.target.parentElement.parentElement.remove();
+function deleteItem(e) {
+
+  if (confirm('are you sure?')) {
+    if (e.target.className === 'fas fa-times') {
+      e.target.parentElement.parentElement.remove();
+    }
   }
 
   e.preventDefault();
 }
 
 // delete all items
-function deleteAllItems(){
+function deleteAllItems(e) {
 
-  taskList.innerHTML = '';
+  //taskList.innerHTML = '';
+
+  /*
+  if (confirm('are you sure?')) {
+    taskList.childNodes.forEach(function (item) {
+      if (item.nodeType === 1) {
+        //console.log(item);
+        item.remove();
+      }
+    });
+  }
+  */
+
+ if (confirm('are you sure ?')) {
+       
+    while(taskList.firstChild){
+        taskList.removeChild(taskList.firstChild);
+    }
+  }
 
   e.preventDefault();
 }
