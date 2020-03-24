@@ -4,6 +4,10 @@ const form = document.querySelector('form');
 const input = document.querySelector('#txtTaskName');
 const btnDeleteAll = document.querySelector('#btnDeleteAll');
 const taskList = document.querySelector('#task-list');
+const items = ['item 1','item 2','item3'];
+
+// load items
+loadItems();
 
 //call event listeners
 eventListeners();
@@ -19,6 +23,31 @@ function eventListeners() {
   btnDeleteAll.addEventListener('click', deleteAllItems);
 }
 
+function loadItems(){
+  items.forEach(function(item){
+    createItem(item);
+  })
+}
+
+function createItem(text){
+    //create li
+    const li = document.createElement('li');
+    li.className = 'list-group-item list-group-item-secondary';
+    li.appendChild(document.createTextNode(text));
+  
+    //create a
+    const a = document.createElement('a');
+    a.classList = 'delete-item float-right';
+    a.setAttribute('href', '#');
+    a.innerHTML = '<i class="fas fa-times"></i>';
+  
+    // add a to li
+    li.appendChild(a);
+  
+    // add li to ul
+    taskList.appendChild(li);
+}
+
 //add new item
 function addNewItem(e) {
 
@@ -26,23 +55,10 @@ function addNewItem(e) {
     alert('add new item');
   }
 
-  //create li
-  const li = document.createElement('li');
-  li.className = 'list-group-item list-group-item-secondary';
-  li.appendChild(document.createTextNode(input.value));
+  // create item
+  createItem(input.value);
 
-  //create a
-  const a = document.createElement('a');
-  a.classList = 'delete-item float-right';
-  a.setAttribute('href', '#');
-  a.innerHTML = '<i class="fas fa-times"></i>';
-
-  // add a to li
-  li.appendChild(a);
-
-  // add li to ul
-  taskList.appendChild(li);
-
+  // clear input
   input.value = '';
 
   e.preventDefault();
@@ -51,11 +67,12 @@ function addNewItem(e) {
 //delete an item
 function deleteItem(e) {
 
-  if (confirm('are you sure?')) {
+  
     if (e.target.className === 'fas fa-times') {
-      e.target.parentElement.parentElement.remove();
+      if (confirm('are you sure?')) {
+        e.target.parentElement.parentElement.remove();
+      }
     }
-  }
 
   e.preventDefault();
 }
